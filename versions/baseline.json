@@ -10420,6 +10420,10 @@
       "baseline": "2.2.0",
       "port-version": 0
     },
+    "voikko": {
+      "baseline": "4.3.3",
+      "port-version": 0
+    },
     "volk": {
       "baseline": "1.4.328.0",
       "port-version": 0
