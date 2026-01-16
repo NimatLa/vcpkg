@@ -1,0 +1,13 @@
+{
+  "name": "voikko",
+  "version-semver": "4.3.3",
+  "description": "Library for language tools",
+  "homepage": "https://voikko.puimula.org/",
+  "license": "GPL-3.0-or-later",
+  "dependencies": [
+    {
+      "name": "vcpkg-make",
+      "host": true
+    }
+  ]
+}

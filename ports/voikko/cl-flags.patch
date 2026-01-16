@@ -1,0 +1,39 @@
+diff --git a/libvoikko/configure.ac b/libvoikko/configure.ac
+index 69b41c5..285d89f 100644
+--- a/libvoikko/configure.ac
++++ b/libvoikko/configure.ac
+@@ -80,7 +80,8 @@ AC_TYPE_SIZE_T
+ dnl GCC visibility support
+ AH_TEMPLATE(GCC_VISIBILITY, [GCC visibility support])
+ tmp_CXXFLAGS="$CXXFLAGS"
+-CXXFLAGS="$CXXFLAGS -Wall -Werror -fvisibility=hidden"
++AC_LANG_WERROR
++CXXFLAGS="$CXXFLAGS -Wall -fvisibility=hidden"
+ AC_MSG_CHECKING([whether $CC supports the visibility attribute])
+ AC_COMPILE_IFELSE([AC_LANG_SOURCE(
+ [
+@@ -192,7 +193,13 @@ fi
+ 
+ dnl Windows specific settings
+ if test x$build_os == xmingw32; then
+-  LIBLDFLAGSWIN="-Wl,--output-def,libvoikko-1.def"
++  tmp_LDFLAGS="$LDFLAGS"
++  LDFLAGS="-Wl --output-def"
++  AC_LINK_IFELSE(
++    AC_LANG_SOURCE([[const char hw[] = "Hello, World\n";]]),
++    [LIBLDFLAGSWIN="-Wl,--output-def,libvoikko-1.def"],
++    [LIBLDFLAGSWIN=""])
++  LDFLAGS="$tmp_LDFLAGS"
+ fi
+ AC_SUBST(LIBLDFLAGSWIN)
+ 
+@@ -207,9 +214,6 @@ AC_CHECK_FUNCS([memset])
+ AC_CHECK_FUNCS([strchr])
+ AC_CHECK_FUNCS([getpwuid_r])
+ 
+-dnl Default compiler settings
+-CXXFLAGS="$CXXFLAGS -Wall -Werror -pedantic"
+-
+ AC_CONFIG_FILES([Makefile src/Makefile src/tools/Makefile java/Makefile test/Makefile cs/Makefile cl/Makefile src/libvoikko.pc])
+ AC_OUTPUT
+ 
